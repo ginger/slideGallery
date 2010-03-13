@@ -11,21 +11,17 @@ How to use
 ----------
 	HTML
 	-----------
-	<code>
-	<pre>
-	<div class="gallery">
-		<div class="holder">
-			<ul>
+	&lt;div class=&quot;gallery&quot;&gt;
+		&lt;div class=&quot;holder&quot;&gt;
+			&lt;ul&gt;
 				...
-				<li><img src="../Source/Assets/img1.jpg" alt="image description" width="240" height="180" /></li>
+				&lt;li&gt;&lt;img src=&quot;../Source/Assets/img1.jpg&quot; alt=&quot;image description&quot; width=&quot;240&quot; height=&quot;180&quot; /&gt;&lt;/li&gt;
 				...
-			</ul>
-		</div>
-		<a href="#" class="prev">prev</a>
-		<a href="#" class="next">next</a>
-	</div>
-	</pre>
-	</code>
+			&lt;/ul&gt;
+		&lt;/div&gt;
+		&lt;a href=&quot;#&quot; class=&quot;prev&quot;&gt;prev&lt;/a&gt;
+		&lt;a href=&quot;#&quot; class=&quot;next&quot;&gt;next&lt;/a&gt;
+	&lt;/div&gt;
 	
 	CSS
 	-----------
