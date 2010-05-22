@@ -19,7 +19,7 @@ provides: [slideGallery, fadeGallery]
 ...
 */
 var slideGallery = new Class({
-	Version: "1.2.1",
+	Version: "1.2.2",
 	Implements: [Options],
 	options: {
 		holder: ".holder",
@@ -40,6 +40,7 @@ var slideGallery = new Class({
 		currentClass: "current",
 		paging: false,
 		autoplay: false,
+		autoplayOpposite: false,
 		onStart: function(current, visible, length) {},
 		onPlay: function(current, visible, length) {}
 	},
@@ -50,9 +51,7 @@ var slideGallery = new Class({
 		this.itemsParent = this.holder.getElement(this.options.elementsParent);
 		this.items = this.itemsParent.getElements(this.options.elements);
 		this.next = this.gallery.getElement(this.options.nextItem);
-		this.next.cl = this.next.className;
 		this.prev = this.gallery.getElement(this.options.prevItem);
-		this.prev.cl = this.prev.className;
 		this.stop = this.gallery.getElement(this.options.stop);
 		this.start = this.gallery.getElement(this.options.start);
 		this.current = this.options.current;
@@ -71,15 +70,17 @@ var slideGallery = new Class({
 		
 		if(this.next == null) this.next = new Element("a").injectInside(this.gallery);
 		if(this.prev == null) this.prev = new Element("a").injectInside(this.gallery);
+		this.next.cl = this.next.className;
+		this.prev.cl = this.prev.className;
 		
 		if(this.visible < this.items.length) {
 			this.options.steps = this.options.steps > this.visible ? this.visible : this.options.steps;
 			this.options.duration = this.options.duration < 1000 ? 1000 : this.options.duration;
 			
+			for(var i=0; i<this.items.length; i++) {
+				if(this.items[i].hasClass(this.options.currentClass)) this.current = i;
+			}
 			if(this.options.mode != "circle") {
-				for(var i=0; i<this.items.length; i++) {
-					if(this.items[i].hasClass(this.options.currentClass)) this.current = i;
-				}
 				if(this.visible+this.current >= this.items.length) {
 					this.margin = (this.items.length-this.visible)*this.size;
 					this.current = this.items.length-this.visible;
@@ -113,7 +114,11 @@ var slideGallery = new Class({
 					this.items.clone().inject(this.itemsParent, "bottom");
 					this.items = this.itemsParent.getElements(this.options.elements);
 				}
-				this.current = 0;
+				if(this.current > this.items.length-1) this.current = this.items.length - 1;
+				if(this.current < 0) this.current = 0;
+				for(var i=0; i<this.current; i++) {
+					this.items[i].inject(this.itemsParent, "bottom");
+				}
 				this.options.paging = false;
 			}
 			
@@ -149,6 +154,7 @@ var slideGallery = new Class({
 								_this.items[_this.current-1].inject(_this.itemsParent, "bottom");
 							}
 							this.set(0);
+							_this.options.onPlay(_this.current, _this.visible, _this.items.length);
 						},
 						onCancel: function() {	this.onComplete(); }
 					});
@@ -247,7 +253,8 @@ var slideGallery = new Class({
 	},
 	rotate: function() {
 		if(this.options.autoplay) {
-			this.next.fireEvent("click");
+			if(!this.options.autoplayOpposite) this.next.fireEvent("click");
+			else this.prev.fireEvent("click");
 			this.timer = this.bound.rotate.delay(this.options.duration);
 		}
 	}

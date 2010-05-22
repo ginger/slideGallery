@@ -4,65 +4,101 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>slideGallery</title>
 	<link media="all" type="text/css" rel="stylesheet" href="../Source/Css/all.css" />
-	<script type="text/javascript" src="../Archive/mootools.js"></script>
+	<script type="text/javascript" src="../Source/mootools-1.2.4-core.js"></script>
 	<script type="text/javascript" src="../Source/mootools.slideGallery.js"></script>
 	<script type="text/javascript">
-		window.addEvent('domready', function() {
+		window.addEvent("domready", function() {
+			/* Example 1 */
 			var gallery1 = new slideGallery($$("div.gallery")[0], {
 				steps: 3,
-				speed: 600,
-				transition: Fx.Transitions.Sine.easeInOut,
 				mode: "circle"
 			});
+			/* Example 2 */
 			var gallery2 = new slideGallery($$("div.gallery")[1], {
-				steps: 1,
-				autoplay: true,
-				duration: 2000,
-				speed: 300,
-				paging: true,
-				onStart: function(current, visible, length) {
-					$$("span.info")[0].innerHTML = parseInt(current+1) + "-" + parseInt(visible+current) + " from " + length;
-				},
-				onPlay: function(current, visible, length) {
-					$$("span.info")[0].innerHTML = parseInt(current+1) + "-" + parseInt(visible+current) + " from " + length;
-				}
+				steps: 1
 			});
+			/* Example 3 */
 			var gallery3 = new slideGallery($$("div.gallery")[2], {
 				steps: 2,
-				mode: "line",
-				transition: Fx.Transitions.Back.easeOut
+				mode: "line"
 			});
+			/* Example 4 */
 			var gallery4 = new slideGallery($$("div.gallery")[3], {
-				steps: 2,
-				autoplay: true,
-				duration: 2000,
+				steps: 1,
 				mode: "circle",
 				direction: "vertical"
 			});
+			/* Example 5 */
 			var gallery5 = new slideGallery($$("div.gallery")[4], {
-				steps: 1,
-				paging: true,
-				speed: 0,
+				steps: 3,
+				mode: "circle",
+				autoplay: true,
+				duration: 2000
+			});
+			/* Example 6 */
+			var gallery6 = new slideGallery($$("div.gallery")[5], {
+				steps: 2,
+				mode: "circle",
+				autoplay: true,
+				autoplayOpposite: true,
+				duration: 3000,
 				direction: "vertical"
 			});
-			var gallery6 = new fadeGallery($$("div.gallery")[5], {
-				speed: 400,
-				paging: true,
-				autoplay: true,
-				duration: 2000,
-				onStart: function(current, visible, length) {
-					$$("span.info")[1].innerHTML = parseInt(current+1) + " from " + length;
-				},
-				onPlay: function(current, visible, length) {
-					$$("span.info")[1].innerHTML = parseInt(current+1) + " from " + length;
-				}
-			});
+			/* Example 7 */
 			var gallery7 = new slideGallery($$("div.gallery")[6], {
 				steps: 2,
 				autoplay: true,
 				duration: 2000,
 				mode: "circle",
-				direction: "vertical"
+				paging: true
+			});
+			/* Example 8 */
+			var gallery8 = new slideGallery($$("div.gallery")[7], {
+				steps: 1,
+				direction: "vertical",
+				paging: true,
+				onStart: function(current, visible, length) {
+					$$("span.info")[7].innerHTML = $$("div.gallery")[7].getElements("img")[current].title;
+				},
+				onPlay: function(current, visible, length) {
+					$$("span.info")[7].innerHTML = $$("div.gallery")[7].getElements("img")[current].title;
+				}
+			});
+			/* Example 9 */
+			var gallery9 = new slideGallery($$("div.gallery")[8], {
+				steps: 1,
+				mode: "circle",
+				current: 4,
+				speed: 0
+			});
+			/* Example 10 */
+			var gallery10 = new slideGallery($$("div.gallery")[9], {
+				steps: 2,
+				speed: 700,
+				transition: Fx.Transitions.Sine.easeInOut,
+				onStart: function(current, visible, length) {
+					$$("span.info")[9].innerHTML = parseInt(current+1) + "-" + parseInt(visible+current) + " from " + length;
+				},
+				onPlay: function(current, visible, length) {
+					$$("span.info")[9].innerHTML = parseInt(current+1) + "-" + parseInt(visible+current) + " from " + length;
+				}
+			});
+			/* Example 11 */
+			var gallery11 = new slideGallery($$("div.gallery")[10], {
+				steps: 1
+			});
+			/* Example 12 */
+			var gallery6 = new fadeGallery($$("div.gallery")[11], {
+				speed: 400,
+				paging: true,
+				autoplay: true,
+				duration: 2000,
+				onStart: function(current, visible, length) {
+					$$("span.info")[11].innerHTML = parseInt(current+1) + " from " + length;
+				},
+				onPlay: function(current, visible, length) {
+					$$("span.info")[11].innerHTML = parseInt(current+1) + " from " + length;
+				}
 			});
 		});
 	</script>
@@ -70,55 +106,12 @@
 </head>
 <body>
 	<div id="wrapper">
+		<h1>gallerySlide 1.2.2 for Mootools 1.2</h1>
+		<h2>Modes and steps</h2>
+		
 		<!-- Example 1 -->
-		<h2>Example 1</h2>
-		<p>mode: circle, direction: horizontal, step: 3</h2>
-<code>
-<pre>
-	var gallery1 = new slideGallery($$(&quot;div.gallery&quot;)[0], {
-		steps: 3,
-		speed: 600,
-		transition: Fx.Transitions.Sine.easeInOut,
-		mode: &quot;circle&quot;
-	});
-</pre>
-</code>
-		<div class="gallery">
-			<div class="holder">
-				<ul>
-					<li><img src="../Source/Assets/img1.jpg" alt="image" width="240" height="180" />1</li>
-					<li><img src="../Source/Assets/img2.jpg" alt="image" width="240" height="180" />2</li>
-					<li><img src="../Source/Assets/img3.jpg" alt="image" width="240" height="180" />3</li>
-					<li><img src="../Source/Assets/img4.jpg" alt="image" width="240" height="180" />4</li>
-					<li><img src="../Source/Assets/img5.jpg" alt="image" width="240" height="180" />5</li>
-					<li><img src="../Source/Assets/img6.jpg" alt="image" width="240" height="180" />6</li>
-					<li><img src="../Source/Assets/img7.jpg" alt="image" width="240" height="180" />7</li>
-					<li><img src="../Source/Assets/img8.jpg" alt="image" width="240" height="180" />8</li>
-				</ul>
-			</div>
-			<a href="#" class="prev">prev</a>
-			<a href="#" class="next">next</a>
-		</div>
-		<!-- Example 2 -->
-		<h2>Example 2</h2>
-		<p>mode: callback, direction: horizontal, step: 1, autoplay: 2sec, paging</h2>
-<code>
-<pre>
-	var gallery2 = new slideGallery($$(&quot;div.gallery&quot;)[1], {
-		steps: 1,
-		autoplay: true,
-		duration: 2000,
-		speed: 300,
-		paging: true,
-		onStart: function(current, visible, length) {
-			$$(&quot;span.info&quot;)[0].innerHTML = parseInt(current+1) + &quot;-&quot; + parseInt(visible+current) + &quot; from &quot; + length;
-		},
-		onPlay: function(current, visible, length) {
-			$$(&quot;span.info&quot;)[0].innerHTML = parseInt(current+1) + &quot;-&quot; + parseInt(visible+current) + &quot; from &quot; + length;
-		}
-	});
-</pre>
-</code>
+		<h3>Example 1</h3>
+		<p>mode: circle, step: 3</p>
 		<div class="gallery">
 			<div class="holder">
 				<ul>
@@ -135,23 +128,36 @@
 			<a href="#" class="prev">prev</a>
 			<a href="#" class="next">next</a>
 			<div class="control">
-				<a href="#" class="start">play</a>
-				<a href="#" class="stop">stop</a>
 				<span class="info"></span>
 			</div>
 		</div>
+		
+		<!-- Example 2 -->
+		<h3>Example 2</h3>
+		<p>mode: callback, step: 1</p>
+		<div class="gallery">
+			<div class="holder">
+				<ul>
+					<li><img src="../Source/Assets/img1.jpg" alt="image" width="240" height="180" title="Image title 1" />1</li>
+					<li><img src="../Source/Assets/img2.jpg" alt="image" width="240" height="180" title="Image title 2" />2</li>
+					<li><img src="../Source/Assets/img3.jpg" alt="image" width="240" height="180" title="Image title 3" />3</li>
+					<li><img src="../Source/Assets/img4.jpg" alt="image" width="240" height="180" title="Image title 4" />4</li>
+					<li><img src="../Source/Assets/img5.jpg" alt="image" width="240" height="180" title="Image title 5" />5</li>
+					<li><img src="../Source/Assets/img6.jpg" alt="image" width="240" height="180" title="Image title 6" />6</li>
+					<li><img src="../Source/Assets/img7.jpg" alt="image" width="240" height="180" title="Image title 7" />7</li>
+					<li><img src="../Source/Assets/img8.jpg" alt="image" width="240" height="180" title="Image title 8" />8</li>
+				</ul>
+			</div>
+			<a href="#" class="prev">prev</a>
+			<a href="#" class="next">next</a>
+			<div class="control">
+				<span class="info"></span>
+			</div>
+		</div>
+		
 		<!-- Example 3 -->
-		<h2>Example 3</h2>
-		<p>mode: line, direction: horizontal, step: 2, current item: 6</p>
-<code>
-<pre>
-	var gallery3 = new slideGallery($$(&quot;div.gallery&quot;)[2], {
-		steps: 2,
-		mode: &quot;line&quot;,
-		transition: Fx.Transitions.Back.easeOut
-	});	
-</pre>
-</code>
+		<h3>Example 3</h3>
+		<p>mode: line, step: 2</p>
 		<div class="gallery">
 			<div class="holder">
 				<ul>
@@ -175,21 +181,16 @@
 			</div>
 			<a href="#" class="prev">prev</a>
 			<a href="#" class="next">next</a>
+			<div class="control">
+				<span class="info"></span>
+			</div>
 		</div>
+		
+		<h2>Directions and autoplay + modes and steps</h2>
+		
 		<!-- Example 4 -->
-		<h2>Example 4</h2>
-		<p>mode: circle, direction: vertical, step: 2, autoplay: 2sec</p>
-<code>
-<pre>
-	var gallery4 = new slideGallery($$(&quot;div.gallery&quot;)[3], {
-		steps: 2,
-		autoplay: true,
-		duration: 2000,
-		mode: &quot;circle&quot;,
-		direction: &quot;vertical&quot;
-	});
-</pre>
-</code>
+		<h3>Example 4</h3>
+		<p>direction: vertical, mode: circle, steps: 1</p>
 		<div class="gallery gallery-vert">
 			<div class="holder">
 				<ul>
@@ -205,20 +206,37 @@
 			</div>
 			<a href="#" class="prev">prev</a>
 			<a href="#" class="next">next</a>
+			<div class="control">
+				<span class="info"></span>
+			</div>
 		</div>
+		
 		<!-- Example 5 -->
-		<h2>Example 5</h2>
-		<p>mode: callback, direction: vertical, step: 1, paging, speed: 0</p>
-<code>
-<pre>
-	var gallery5 = new slideGallery($$(&quot;div.gallery&quot;)[4], {
-		steps: 1,
-		paging: true,
-		speed: 0,
-		direction: &quot;vertical&quot;
-	});
-</pre>
-</code>
+		<h3>Example 5</h3>
+		<p>direction: horizontal, mode: circle, autoplay: true (duration 2sec), steps: 3</p>
+		<div class="gallery">
+			<div class="holder">
+				<ul>
+					<li><img src="../Source/Assets/img1.jpg" alt="image" width="240" height="180" /></li>
+					<li><img src="../Source/Assets/img2.jpg" alt="image" width="240" height="180" /></li>
+					<li><img src="../Source/Assets/img3.jpg" alt="image" width="240" height="180" /></li>
+					<li><img src="../Source/Assets/img4.jpg" alt="image" width="240" height="180" /></li>
+					<li><img src="../Source/Assets/img5.jpg" alt="image" width="240" height="180" /></li>
+					<li><img src="../Source/Assets/img6.jpg" alt="image" width="240" height="180" /></li>
+					<li><img src="../Source/Assets/img7.jpg" alt="image" width="240" height="180" /></li>
+					<li><img src="../Source/Assets/img8.jpg" alt="image" width="240" height="180" /></li>
+				</ul>
+			</div>
+			<a href="#" class="prev">prev</a>
+			<a href="#" class="next">next</a>
+			<div class="control">
+				<span class="info"></span>
+			</div>
+		</div>
+		
+		<!-- Example 6 -->
+		<h3>Example 6</h3>
+		<p>direction: vertical, mode: circle, autoplay: true (duration 3sec), autoplayOpposite: true, steps: 2</p>
 		<div class="gallery gallery-vert">
 			<div class="holder">
 				<ul>
@@ -234,27 +252,87 @@
 			</div>
 			<a href="#" class="prev">prev</a>
 			<a href="#" class="next">next</a>
+			<div class="control">
+				<span class="info"></span>
+			</div>
 		</div>
-		<!-- Example 6 -->
-		<h2>Example 6</h2>
-		<p>extended class: fadeGallery, paging, autoplay: 2sec</p>
-<code>
-<pre>
-	var gallery6 = new fadeGallery($$(&quot;div.gallery&quot;)[5], {
-		speed: 400,
-		paging: true,
-		autoplay: true,
-		duration: 2000,
-		onStart: function(current, visible, length) {
-			$$(&quot;span.info&quot;)[1].innerHTML = parseInt(current+1) + &quot; from &quot; + length;
-		},
-		onPlay: function(current, visible, length) {
-			$$(&quot;span.info&quot;)[1].innerHTML = parseInt(current+1) + &quot; from &quot; + length;
-		}
-	});
-</pre>
-</code>
-		<div class="gallery gallery-fade">
+		
+		<h2>Paging + directions and autoplay + modes and steps</h2>
+		
+		<!-- Example 7 -->
+		<h3>Example 7</h3>
+		<p>direction: horizontal, mode: circle, autoplay: true (duration 2sec), steps: 2, paging: true</p>
+		<div class="gallery">
+			<div class="holder">
+				<ul>
+					<li><img src="../Source/Assets/img1.jpg" alt="image" width="240" height="180" />1</li>
+					<li><img src="../Source/Assets/img2.jpg" alt="image" width="240" height="180" />2</li>
+					<li><img src="../Source/Assets/img3.jpg" alt="image" width="240" height="180" />3</li>
+					<li><img src="../Source/Assets/img4.jpg" alt="image" width="240" height="180" />4</li>
+					<li><img src="../Source/Assets/img5.jpg" alt="image" width="240" height="180" />5</li>
+					<li><img src="../Source/Assets/img6.jpg" alt="image" width="240" height="180" />6</li>
+					<li><img src="../Source/Assets/img7.jpg" alt="image" width="240" height="180" />7</li>
+					<li><img src="../Source/Assets/img8.jpg" alt="image" width="240" height="180" />8</li>
+				</ul>
+			</div>
+			<a href="#" class="prev">prev</a>
+			<a href="#" class="next">next</a>
+			<div class="control">
+				<span class="info"></span>
+			</div>
+		</div>
+		
+		<!-- Example 8 -->
+		<h3>Example 8</h3>
+		<p>direction: vertical, mode: callback, steps: 1, paging: true, image captions</p>
+		<div class="gallery gallery-vert-one">
+			<div class="holder">
+				<ul>
+					<li><img src="../Source/Assets/img1.jpg" alt="image" width="240" height="180" title="I'am image 1" />1</li>
+					<li><img src="../Source/Assets/img2.jpg" alt="image" width="240" height="180" title="I'am image 2" />2</li>
+					<li><img src="../Source/Assets/img3.jpg" alt="image" width="240" height="180" title="I'am image 3" />3</li>
+					<li><img src="../Source/Assets/img4.jpg" alt="image" width="240" height="180" title="I'am image 4" />4</li>
+					<li><img src="../Source/Assets/img5.jpg" alt="image" width="240" height="180" title="I'am image 5" />5</li>
+					<li><img src="../Source/Assets/img6.jpg" alt="image" width="240" height="180" title="I'am image 6" />6</li>
+					<li><img src="../Source/Assets/img7.jpg" alt="image" width="240" height="180" title="I'am image 7" />7</li>
+					<li><img src="../Source/Assets/img8.jpg" alt="image" width="240" height="180" title="I'am image 8" />8</li>
+				</ul>
+			</div>
+			<a href="#" class="prev">prev</a>
+			<a href="#" class="next">next</a>
+			<div class="control">
+				<span class="info"></span>
+			</div>
+		</div>
+		
+		<h2>Other</h2>
+		
+		<!-- Example 9 -->
+		<h3>Example 9</h3>
+		<p>speed: 0, current: 4 (or via "li class='current'")</p>
+		<div class="gallery">
+			<div class="holder">
+				<ul>
+					<li><img src="../Source/Assets/img1.jpg" alt="image" width="240" height="180" />1</li>
+					<li><img src="../Source/Assets/img2.jpg" alt="image" width="240" height="180" />2</li>
+					<li><img src="../Source/Assets/img3.jpg" alt="image" width="240" height="180" />3</li>
+					<li><img src="../Source/Assets/img4.jpg" alt="image" width="240" height="180" />4</li>
+					<li><img src="../Source/Assets/img5.jpg" alt="image" width="240" height="180" />5</li>
+					<li><img src="../Source/Assets/img6.jpg" alt="image" width="240" height="180" />6</li>
+					<li><img src="../Source/Assets/img7.jpg" alt="image" width="240" height="180" />7</li>
+					<li><img src="../Source/Assets/img8.jpg" alt="image" width="240" height="180" />8</li>
+				</ul>
+			</div>
+			<a href="#" class="prev">prev</a>
+			<a href="#" class="next">next</a>
+			<div class="control">
+				<span class="info"></span>
+			</div>
+		</div>
+		<!-- Example 10 -->
+		<h3>Example 10</h3>
+		<p>transition: Fx.Transitions.Sine.easeInOut, speed: 700, controls, onStart and onPlay functions</p>
+		<div class="gallery">
 			<div class="holder">
 				<ul>
 					<li><img src="../Source/Assets/img1.jpg" alt="image" width="240" height="180" />1</li>
@@ -275,29 +353,45 @@
 				<span class="info"></span>
 			</div>
 		</div>
-		<!-- Example 7 -->
-		<h2>Example 7</h2>
-		<p>only 2 images</p>
-<code>
-<pre>
-	var gallery7 = new slideGallery($$(&quot;div.gallery&quot;)[6], {
-		steps: 2,
-		autoplay: true,
-		duration: 2000,
-		mode: &quot;circle&quot;,
-		direction: &quot;vertical&quot;
-	});
-</pre>
-</code>
-		<div class="gallery gallery-vert">
+		<!-- Example 11 -->
+		<h3>Example 11</h3>
+		<p>Only 4 images</p>
+		<div class="gallery">
 			<div class="holder">
 				<ul>
 					<li><img src="../Source/Assets/img1.jpg" alt="image" width="240" height="180" /></li>
 					<li><img src="../Source/Assets/img2.jpg" alt="image" width="240" height="180" /></li>
+					<li><img src="../Source/Assets/img3.jpg" alt="image" width="240" height="180" /></li>
+					<li><img src="../Source/Assets/img4.jpg" alt="image" width="240" height="180" /></li>
 				</ul>
 			</div>
 			<a href="#" class="prev">prev</a>
 			<a href="#" class="next">next</a>
+			<div class="control">
+				<span class="info"></span>
+			</div>
+		</div>
+		<!-- Example 12 -->
+		<h3>Example 12</h3>
+		<p>fadeGallery</p>
+		<div class="gallery gallery-fade">
+			<div class="holder">
+				<ul>
+					<li><img src="../Source/Assets/img1.jpg" alt="image" width="240" height="180" /></li>
+					<li><img src="../Source/Assets/img2.jpg" alt="image" width="240" height="180" /></li>
+					<li><img src="../Source/Assets/img3.jpg" alt="image" width="240" height="180" /></li>
+					<li><img src="../Source/Assets/img4.jpg" alt="image" width="240" height="180" /></li>
+					<li><img src="../Source/Assets/img5.jpg" alt="image" width="240" height="180" /></li>
+					<li><img src="../Source/Assets/img6.jpg" alt="image" width="240" height="180" /></li>
+					<li><img src="../Source/Assets/img7.jpg" alt="image" width="240" height="180" /></li>
+					<li><img src="../Source/Assets/img8.jpg" alt="image" width="240" height="180" /></li>
+				</ul>
+			</div>
+			<a href="#" class="prev">prev</a>
+			<a href="#" class="next">next</a>
+			<div class="control">
+				<span class="info"></span>
+			</div>
 		</div>
 	</div>
 </body>

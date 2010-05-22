@@ -69,9 +69,10 @@ How to use
 			- mode [string: "callback", "circle", "line"] - sliding mode. Default "callback"
 			- mode [string: "callback", "circle", "line"] - with\without call back to first item or circle mode. Default "callback"
 			- disableClass [string] - class name for next and prev buttons in disable state. Default "disable"
-			- currentClass [string] - 
+			- currentClass [string] - class of first(active) slide. Default "current"
 			- paging [boolean] -  on\off handles. Default false
 			- autoplay [boolean] - on\off autoplay. Default false
+			- autoplayOpposite [boolean] - on\off opposite autoplay. Default false
 			- onStart [function] - callback 1 time during initialization
 			- onPlay [function] - callback after each slide
 
