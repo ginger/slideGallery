@@ -1,7 +1,7 @@
 slideGallery
 ============
 
-Slide carousel for mootools.
+Multifunctional slide carousel for mootools.
 
 Cross Browser: IE6+, FF2+, Safari3+, Opera9+, Chrome
 
@@ -35,7 +35,7 @@ How to use
 		margin: 0;
 		padding: 0;
 		list-style: none;
-		width: 30000px;
+		width: 99999px;
 	}
 	.gallery .holder ul li { float: left; }
 	
@@ -70,6 +70,7 @@ How to use
 			- mode [string: "callback", "circle", "line"] - with\without call back to first item or circle mode. Default "callback"
 			- disableClass [string] - class name for next and prev buttons in disable state. Default "disable"
 			- currentClass [string] - class of first(active) slide. Default "current"
+			- random [boolean] - random set of slides. Default false
 			- paging [boolean] -  on\off handles. Default false
 			- autoplay [boolean] - on\off autoplay. Default false
 			- autoplayOpposite [boolean] - on\off opposite autoplay. Default false

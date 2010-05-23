@@ -10,12 +10,15 @@
 		window.addEvent("domready", function() {
 			/* Example 1 */
 			var gallery1 = new slideGallery($$("div.gallery")[0], {
-				steps: 3,
+				steps: 2,
+				paging: true,
 				mode: "circle"
 			});
 			/* Example 2 */
 			var gallery2 = new slideGallery($$("div.gallery")[1], {
-				steps: 1
+				steps: 1,
+				speed: 300,
+				random: true
 			});
 			/* Example 3 */
 			var gallery3 = new slideGallery($$("div.gallery")[2], {
@@ -47,9 +50,8 @@
 			/* Example 7 */
 			var gallery7 = new slideGallery($$("div.gallery")[6], {
 				steps: 2,
-				autoplay: true,
 				duration: 2000,
-				mode: "circle",
+				autoplay: true,
 				paging: true
 			});
 			/* Example 8 */
@@ -88,7 +90,7 @@
 				steps: 1
 			});
 			/* Example 12 */
-			var gallery6 = new fadeGallery($$("div.gallery")[11], {
+			var gallery12 = new fadeGallery($$("div.gallery")[11], {
 				speed: 400,
 				paging: true,
 				autoplay: true,
@@ -106,8 +108,8 @@
 </head>
 <body>
 	<div id="wrapper">
-		<h1>gallerySlide 1.2.2 for Mootools 1.2</h1>
-		<h2>Modes and steps</h2>
+		<h1>slideGallery 1.2.2 for Mootools 1.2</h1>
+		<h2>Modes and steps + random</h2>
 		
 		<!-- Example 1 -->
 		<h3>Example 1</h3>
@@ -134,7 +136,7 @@
 		
 		<!-- Example 2 -->
 		<h3>Example 2</h3>
-		<p>mode: callback, step: 1</p>
+		<p>mode: callback, step: 1, random: true</p>
 		<div class="gallery">
 			<div class="holder">
 				<ul>
@@ -261,7 +263,7 @@
 		
 		<!-- Example 7 -->
 		<h3>Example 7</h3>
-		<p>direction: horizontal, mode: circle, autoplay: true (duration 2sec), steps: 2, paging: true</p>
+		<p>direction: horizontal, mode: callback, autoplay: true (duration 2sec), steps: 2, paging: true</p>
 		<div class="gallery">
 			<div class="holder">
 				<ul>

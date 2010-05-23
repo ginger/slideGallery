@@ -38,6 +38,7 @@ var slideGallery = new Class({
 		mode: "callback",
 		disableClass: "disable",
 		currentClass: "current",
+		random: false,
 		paging: false,
 		autoplay: false,
 		autoplayOpposite: false,
@@ -72,10 +73,32 @@ var slideGallery = new Class({
 		if(this.prev == null) this.prev = new Element("a").injectInside(this.gallery);
 		this.next.cl = this.next.className;
 		this.prev.cl = this.prev.className;
-		
+
 		if(this.visible < this.items.length) {
+			if(this.options.random) {
+				Array.prototype.shuffle = function(b) {
+					var i = this.length, j, t;
+					while(i) {
+						j = Math.floor( ( i-- ) * Math.random() );
+						t = b && typeof this[i].shuffle!=="undefined" ? this[i].shuffle() : this[i];
+						this[i] = this[j];
+						this[j] = t;
+					}
+					return this;
+				};
+				this.items.shuffle(this.items);
+				this.hidden = new Element("div");
+				this.items.each(function(el, i) {
+					this.wrap = new Element("div").adopt(el);
+					this.hidden.set("html", this.hidden.get("html"), this.wrap.get("html"));
+				}.bind(this));
+				this.itemsParent.set("html", this.hidden.get("html"));
+				this.items = this.itemsParent.getElements(this.options.elements);
+			}
+		
 			this.options.steps = this.options.steps > this.visible ? this.visible : this.options.steps;
 			this.options.duration = this.options.duration < 1000 ? 1000 : this.options.duration;
+			this.options.speed = this.options.speed > 6000 ? 6000 : this.options.speed;
 			
 			for(var i=0; i<this.items.length; i++) {
 				if(this.items[i].hasClass(this.options.currentClass)) this.current = i;
@@ -234,12 +257,7 @@ var slideGallery = new Class({
 		this.options.onStart(this.current, this.visible, this.items.length);
 	},
 	play: function(speed) {
-		if(this.options.mode == "line") {
-			this.next.removeClass(this.next.cl + "-" + this.options.disableClass);
-			this.prev.removeClass(this.prev.cl + "-" + this.options.disableClass);
-			if(this.visible+this.current >= this.items.length) this.next.addClass(this.next.cl + "-" + this.options.disableClass);
-			else if(this.current==0) this.prev.addClass(this.prev.cl + "-" + this.options.disableClass);
-		}
+		this.sidesChecking();
 		this.itemsParent.set("tween", {
 			duration: speed,
 			transition: this.options.transition
@@ -257,18 +275,28 @@ var slideGallery = new Class({
 			else this.prev.fireEvent("click");
 			this.timer = this.bound.rotate.delay(this.options.duration);
 		}
+	},
+	sidesChecking: function() {
+		if(this.options.mode == "line") {
+			this.next.removeClass(this.next.cl + "-" + this.options.disableClass);
+			this.prev.removeClass(this.prev.cl + "-" + this.options.disableClass);
+			if(this.visible+this.current >= this.items.length) this.next.addClass(this.next.cl + "-" + this.options.disableClass);
+			else if(this.current==0) this.prev.addClass(this.prev.cl + "-" + this.options.disableClass);
+		}
 	}
 });
 var fadeGallery = new Class({
 	Extends: slideGallery,
 	initialize: function(gallery, options) {
 		this.previous = null;
+		if(options.mode == "circle") options.mode = "callback";
+		options.steps = 1;
 		this.parent(gallery, options);
 		this.visible = 1;
-		this.options.steps = 1;
 	},
 	play: function(speed) {
 		if(this.previous == null) this.previous = this.items;
+		this.sidesChecking();
 		this.previous.set("tween", {
 			duration: speed,
 			transition: this.options.transition
