@@ -19,7 +19,7 @@ provides: [slideGallery, fadeGallery]
 ...
 */
 var slideGallery = new Class({
-	Version: "1.2.2",
+	Version: "1.2.3",
 	Implements: [Options],
 	options: {
 		holder: ".holder",
