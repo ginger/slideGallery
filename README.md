@@ -67,8 +67,8 @@ How to use
 			- transition [object] - transition. Default Fx.Transitions.linear
 			- direction [string: "horizontal", "vertical"] - sliding direction. Default "horizontal"
 			- mode [string: "callback", "circle", "line"] - sliding mode. Default "callback"
-			- nextDisableClass [string] - class name for next button in disable state. Default "disable"
-			- prevDisableClass [string] - class name for prev button in disable state. Default "disable"
+			- nextDisableClass [string] - class name for next button in disable state. Default "next-disable"
+			- prevDisableClass [string] - class name for prev button in disable state. Default "prev-disable"
 			- currentClass [string] - class of first(active) slide. Default "current"
 			- random [boolean] - random set of slides. Default false
 			- paging [boolean] -  on\off handles. Default false
