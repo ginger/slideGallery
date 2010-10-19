@@ -4,14 +4,13 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>slideGallery</title>
 	<link media="all" type="text/css" rel="stylesheet" href="../Source/Css/all.css" />
-	<script type="text/javascript" src="../Archive/mootools-1.2.4-core.js"></script>
+	<script type="text/javascript" src="../Archive/mootools-core-1.3-full-compat-yc.js"></script>
 	<script type="text/javascript" src="../Source/mootools.slideGallery.js"></script>
 	<script type="text/javascript">
 		window.addEvent("domready", function() {
 			/* Example 1 */
 			var gallery1 = new slideGallery($$("div.gallery")[0], {
 				steps: 3,
-				paging: true,
 				mode: "circle"
 			});
 			/* Example 2 */
@@ -42,7 +41,6 @@
 			var gallery6 = new slideGallery($$("div.gallery")[5], {
 				steps: 2,
 				mode: "circle",
-				autoplay: true,
 				autoplayOpposite: true,
 				duration: 3000,
 				direction: "vertical"
@@ -77,6 +75,8 @@
 			var gallery10 = new slideGallery($$("div.gallery")[9], {
 				steps: 2,
 				speed: 700,
+				duration: 1000,
+				autoplay: true,
 				transition: Fx.Transitions.Sine.easeInOut,
 				onStart: function(current, visible, length) {
 					$$("span.info")[9].innerHTML = parseInt(current+1) + "-" + parseInt(visible+current) + " from " + length;
@@ -108,7 +108,7 @@
 </head>
 <body>
 	<div id="wrapper">
-		<h1>slideGallery 1.2.3 for Mootools 1.2</h1>
+		<h1 id="aaa">slideGallery 1.3b for Mootools 1.2+</h1>
 		<h2>Modes and steps + random</h2>
 		
 		<!-- Example 1 -->
@@ -168,12 +168,12 @@
 					<li><img src="../Source/Assets/img3.jpg" alt="image" width="240" height="180" />3</li>
 					<li><img src="../Source/Assets/img4.jpg" alt="image" width="240" height="180" />4</li>
 					<li><img src="../Source/Assets/img5.jpg" alt="image" width="240" height="180" />5</li>
-					<li class="current"><img src="../Source/Assets/img6.jpg" alt="image" width="240" height="180" />6</li>
+					<li><img src="../Source/Assets/img6.jpg" alt="image" width="240" height="180" />6</li>
 					<li><img src="../Source/Assets/img7.jpg" alt="image" width="240" height="180" />7</li>
 					<li><img src="../Source/Assets/img8.jpg" alt="image" width="240" height="180" />8</li>
 					<li><img src="../Source/Assets/img1.jpg" alt="image" width="240" height="180" />9</li>
 					<li><img src="../Source/Assets/img2.jpg" alt="image" width="240" height="180" />10</li>
-					<li><img src="../Source/Assets/img3.jpg" alt="image" width="240" height="180" />11</li>
+					<li class="current"><img src="../Source/Assets/img3.jpg" alt="image" width="240" height="180" />11</li>
 					<li><img src="../Source/Assets/img4.jpg" alt="image" width="240" height="180" />12</li>
 					<li><img src="../Source/Assets/img5.jpg" alt="image" width="240" height="180" />13</li>
 					<li><img src="../Source/Assets/img6.jpg" alt="image" width="240" height="180" />14</li>
@@ -238,7 +238,7 @@
 		
 		<!-- Example 6 -->
 		<h3>Example 6</h3>
-		<p>direction: vertical, mode: circle, autoplay: true (duration 3sec), autoplayOpposite: true, steps: 2</p>
+		<p>direction: vertical, mode: circle, autoplayOpposite: true (duration 3sec), stopOnHover: true, steps: 2</p>
 		<div class="gallery gallery-vert">
 			<div class="holder">
 				<ul>

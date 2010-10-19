@@ -1,7 +1,7 @@
 slideGallery
 ============
 
-Multifunctional slide carousel for mootools.
+Multifunctional slide carousel for mootools 1.2+.
 
 Cross Browser: IE6+, FF2+, Safari3+, Opera9+, Chrome
 
@@ -67,13 +67,14 @@ How to use
 			- transition [object] - transition. Default Fx.Transitions.linear
 			- direction [string: "horizontal", "vertical"] - sliding direction. Default "horizontal"
 			- mode [string: "callback", "circle", "line"] - sliding mode. Default "callback"
-			- mode [string: "callback", "circle", "line"] - with\without call back to first item or circle mode. Default "callback"
-			- disableClass [string] - class name for next and prev buttons in disable state. Default "disable"
+			- nextDisableClass [string] - class name for next button in disable state. Default "disable"
+			- prevDisableClass [string] - class name for prev button in disable state. Default "disable"
 			- currentClass [string] - class of first(active) slide. Default "current"
 			- random [boolean] - random set of slides. Default false
 			- paging [boolean] -  on\off handles. Default false
 			- autoplay [boolean] - on\off autoplay. Default false
 			- autoplayOpposite [boolean] - on\off opposite autoplay. Default false
+			- stopOnHover  [boolean] - on\off autoplay on hover. Default true
 			- onStart [function] - callback 1 time during initialization
 			- onPlay [function] - callback after each slide
 
