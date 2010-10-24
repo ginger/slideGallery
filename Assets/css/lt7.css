@@ -1,0 +1,43 @@
+body { background: #f4f5f5 url(../Assets/transparent.gif) fixed; }
+.next {
+	background: none;
+	filter: progid:dximagetransform.microsoft.alphaimageloader(src='../Assets/images/btn-next.png', sizingmethod='crop'); 
+}
+.prev {
+	background: none;
+	filter: progid:dximagetransform.microsoft.alphaimageloader(src='../Assets/images/btn-prev.png', sizingmethod='crop'); 
+}
+.next-disable {
+	background: none;
+	filter: progid:dximagetransform.microsoft.alphaimageloader(src='../Assets/images/btn-next-disable.png', sizingmethod='crop'); 
+}
+.prev-disable {
+	background: none;
+	filter: progid:dximagetransform.microsoft.alphaimageloader(src='../Assets/images/btn-prev-disable.png', sizingmethod='crop'); 
+}
+.stop {
+	background: none;
+	filter: progid:dximagetransform.microsoft.alphaimageloader(src='../Assets/images/btn-pause.png', sizingmethod='crop'); 
+}
+.stopped .start {
+	background: none;
+	filter: progid:dximagetransform.microsoft.alphaimageloader(src='../Assets/images/btn-play.png', sizingmethod='crop'); 
+}
+.start,
+.no-active .start {
+	background: none;
+	filter: progid:dximagetransform.microsoft.alphaimageloader(src='../Assets/images/btn-play-disable.png', sizingmethod='crop'); 
+}
+.stopped .stop {
+	background: none;
+	filter: progid:dximagetransform.microsoft.alphaimageloader(src='../Assets/images/btn-pause-disable.png', sizingmethod='crop'); 
+}
+.nav {
+	position: absolute;
+	top: expression(parseInt(document.documentElement.scrollTop, 10) + 10 + "px");
+}
+.gallery6 .thumbs li span {
+	background: none;
+	filter: progid:dximagetransform.microsoft.alphaimageloader(src='../Assets/images/fader.png', sizingmethod='scale'); 
+}
+.gallery6 .thumbs li .active span { filter: none; }

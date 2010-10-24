@@ -1,9 +1,9 @@
 /*
 ---
 
-script: mootools.slideGallery.js
+script: slideGallery.js
 
-description: Multifunctional slide carousel for MooTools.
+description: Multifunctional gallery for MooTools
 
 license: MIT-style license
 
@@ -11,6 +11,7 @@ authors:
 - Sergii Kashcheiev
 
 requires:
+- core/1.2.4: Events
 - core/1.2.4: Fx.Tween
 - core/1.2.4: Fx.Transitions
 
@@ -19,8 +20,8 @@ provides: [slideGallery, fadeGallery]
 ...
 */
 var slideGallery = new Class({
-	Version: "1.3b",
-	Implements: [Options],
+	Version: "1.3",
+	Implements: [Options, Events],
 	options: {
 		holder: ".holder",
 		elementsParent: "ul",
@@ -39,16 +40,21 @@ var slideGallery = new Class({
 		currentClass: "current",
 		nextDisableClass: "next-disable",
 		prevDisableClass: "prev-disable",
-		random: false,
 		paging: false,
+		pagingEvent: "click",
+		pagingHolder: ".paging",
+		random: false,
 		autoplay: false,
 		autoplayOpposite: false,
-		stopOnHover: true,
-		onStart: function(current, visible, length) {},
-		onPlay: function(current, visible, length) {}
+		stopOnHover: true
+		/* 
+		onStart: $empty,
+		onPlay: $empty,
+		*/ 
 	},
 	initialize: function(gallery, options) {
-		this.gallery = gallery;
+		if(gallery.length == null) this.gallery = gallery;
+		else this.gallery = gallery[0];
 		if(!this.gallery) return false;
 		this.setOptions(options);
 		this.holder = this.gallery.getElement(this.options.holder);
@@ -59,10 +65,10 @@ var slideGallery = new Class({
 		this.stop = this.gallery.getElement(this.options.stop);
 		this.start = this.gallery.getElement(this.options.start);
 		this.current = this.options.current;
-		this.bound = { rotate: this.rotate.bind(this) }
+		this.bound = {rotate: this.rotate.bind(this) }
 		
 		Fx.implement({
-			cancel: function(){
+			cancel: function() {
 				if(!this.callChain()) this.fireEvent('chainComplete', this.subject);
 				if(this.stopTimer()) this.onCancel();
 				return this;
@@ -85,14 +91,15 @@ var slideGallery = new Class({
 			if(this.prev) this.prev.addClass(this.options.prevDisableClass).addEvent("click", function() {return false;});
 			if(this.stop) this.stop.addEvent("click", function() {return false;});
 			if(this.start) this.start.addEvent("click", function() {return false;});
-			this.gallery.addClass("stopped");
-			this.options.onStart(this.current, this.visible, this.items.length);
+			this.gallery.addClass("stopped no-active");
+			this.fireEvent("start", this.current, this.visible, this.items.length, this.items[this.current]);
 			return false;
 		}
 			
 		this.options.steps = this.options.steps > this.visible ? this.visible : this.options.steps;
 		this.options.duration = this.options.duration < 1000 ? 1000 : this.options.duration;
 		this.options.speed = this.options.speed > 6000 ? 6000 : this.options.speed;
+		if(this.options.speed > this.options.duration) this.options.speed = this.options.duration;
 		
 		this.fx = new Fx.Tween(this.itemsParent, {
 			property: this.direction,
@@ -102,18 +109,10 @@ var slideGallery = new Class({
 			fps: 100
 		});
 	
-		if(this.options.random) this.items = this.itemsParent.set("html", this.getRandomArray(this.items)).getElements(this.options.elements);
-		
+		if(this.options.random) this.shuffle();
 		this.getInitialCurrent();
 		
-		if(this.options.mode != "circle") {
-			if(this.visible+this.current >= this.items.length) {
-				this.margin = (this.items.length-this.visible)*this.size;
-				this.current = this.items.length-this.visible;
-			}
-			else this.margin = this.current*this.size;
-		}
-		else {
+		if(this.options.mode == "circle") {
 			while(this.items.length < this.options.steps+this.visible) {
 				this.itemsParent.innerHTML += this.itemsParent.innerHTML;
 				this.items = this.itemsParent.getElements(this.options.elements);
@@ -123,9 +122,10 @@ var slideGallery = new Class({
 			}
 			this.options.paging = false;
 		}
-		
-		if(this.options.paging) this.createPaging();
-		this.play(false);
+		else {
+			if(this.options.paging) this.createPaging();
+			this.play(false);
+		}
 		
 		if(this.next) {
 			this.next.addEvent("click", function() {
@@ -173,7 +173,7 @@ var slideGallery = new Class({
 			}.bind(this));
 		}
 		
-		this.options.onStart(this.current, this.visible, this.items.length);
+		this.fireEvent("start", this.current, this.visible, this.items.length, this.items[this.current]);
 	},
 	getInitialCurrent: function() {
 		var tempCurrent = this.items.get("class").indexOf(this.options.currentClass);
@@ -182,6 +182,8 @@ var slideGallery = new Class({
 			if(this.current > this.items.length-1) this.current = this.items.length-1;
 			else	if(this.current < 0) this.current = 0;
 		}
+		if(this.options.mode != "circle" && this.visible+this.current >= this.items.length) this.current = this.items.length-this.visible;
+		return this;
 	},
 	rotate: function() {
 		if(!this.options.autoplayOpposite) this.nextSlide();
@@ -191,73 +193,55 @@ var slideGallery = new Class({
 	},
 	play: function(animate) {
 		if(this.options.mode == "line") this.sidesChecking();
-		if(animate) this.fx.start(-this.margin);
-		else if(typeOf(this.margin) == "number") this.fx.set(-this.margin);
-		if(this.options.paging) this.setActivePage(0);
-		this.options.onPlay(this.current, this.visible, this.items.length);
+		if(animate) this.fx.start(-this.current*this.size);
+		else this.fx.set(-this.current*this.size);
+		if(this.options.paging) this.setActivePage();
+		this.fireEvent("play", this.current, this.visible, this.items.length, this.items[this.current]);
 		return this;
 	},
 	nextSlide: function() {
 		if(this.options.mode != "circle") {
 			if(this.visible+this.current >= this.items.length) {
-				if(this.options.mode == "callback") {
-					this.margin = 0;
-					this.current = 0;
-				}
+				if(this.options.mode == "callback") this.current = 0;
 			}
 			else if(this.visible+this.current+this.options.steps >= this.items.length) {
-				this.margin = (this.items.length-this.visible)*this.size;
 				this.current = this.items.length-this.visible;
 			}
-			else	{
-				this.current = this.current+this.options.steps;
-				this.margin = this.current*this.size;
-			}
+			else this.current += this.options.steps;
 			this.play(true);
 		}
 		else {
-			this.margin = this.size*this.options.steps;
-			this.fx.start(-this.margin).chain(function() {
+			var temp = this.current;
+			if((this.current += this.options.steps) >= this.items.length) this.current -= this.items.length;
+			this.fx.start(-this.size*this.options.steps).chain(function() {
 				for(var i=0; i<this.options.steps; i++) {
-					if(this.current >= this.items.length) this.current = 0;
-					this.current++;
-					this.items[this.current-1].inject(this.itemsParent, "bottom");
+					if(temp >= this.items.length) temp = 0;
+					this.items[temp++].inject(this.itemsParent, "bottom");
 				}
 				this.fx.set(0);
-				this.options.onPlay(this.current, this.visible, this.items.length);
 			}.bind(this));
-	
-			if(this.options.paging) this.setActivePage(this.options.steps);
+			this.fireEvent("play", this.current, this.visible, this.items.length, this.items[this.current]);
 		}
 		return this;
 	},
 	prevSlide: function() {
 		if(this.options.mode != "circle") {
 			if(this.current <= 0) {
-				if(this.options.mode == "callback") {
-					this.margin = (this.items.length-this.visible)*this.size;
-					this.current = this.items.length-this.visible;
-				}
+				if(this.options.mode == "callback") this.current = this.items.length-this.visible;
 			}
 			else if(this.current-this.options.steps <= 0) {
-				this.margin = 0;
 				this.current = 0;
 			}
-			else	{
-				this.current = this.current-this.options.steps;
-				this.margin = this.current*this.size;
-			}
+			else	this.current -= this.options.steps;
 			this.play(true);
 		}
 		else {
 			for(var i=0; i<this.options.steps; i++) {
 				if(this.current-1 < 0) this.current = this.items.length;
-				--this.current;
-				this.items[this.current].inject(this.itemsParent, "top");
+				this.items[--this.current].inject(this.itemsParent, "top");
 			}
-			this.fx.set(-this.size*this.options.steps);
-			this.margin = 0;
-			this.play(true);
+			this.fx.set(-this.size*this.options.steps).start(0);
+			this.fireEvent("play", this.current, this.visible, this.items.length, this.items[this.current]);
 		}
 		return this;
 	},
@@ -266,42 +250,41 @@ var slideGallery = new Class({
 		this.prev.removeClass(this.options.prevDisableClass);
 		if(this.visible+this.current >= this.items.length) this.next.addClass(this.options.nextDisableClass)
 		else if(this.current==0) this.prev.addClass(this.options.prevDisableClass);
+		return this;
 	},
 	createPaging: function() {
-		this.paging = new Element("ul").injectInside(this.gallery).addClass("paging");
-		var length = 0;
-		if(this.options.mode != "circle") length = Math.ceil((this.items.length-this.visible)/this.options.steps)+1;
-		else length = Math.ceil(this.items.length/this.options.steps);
+		this.paging = new Element("ul");
+		var pagingHold = this.gallery.getElement(this.options.pagingHolder);
+		if(pagingHold != null) this.paging.injectInside(pagingHold);
+		else this.paging.injectInside(this.gallery).addClass("paging");
+		
+		var length = Math.ceil((this.items.length-this.visible)/this.options.steps)+1;
 		var str = "";
 		for(var i=0; i<length; i++) {
 			str += '<li><a href="#">' + parseInt(i+1) + '</a></li>';
 		}
 		this.paging = this.paging.set("html", str).getElements("a");
 		this.paging.each(function(el, i) {
-			el.addEvent("click", function() {
-				if(i*this.options.steps+this.visible >= this.items.length) {
-					this.current = this.items.length-this.visible;
-				}
-				else this.current = i*this.options.steps;
-				this.margin = this.current*this.size;
+			el.addEvent(this.options.pagingEvent, function() {
+				if(i < length-1) this.current = i*this.options.steps;
+				else this.current = this.items.length-this.visible;
 				this.play(true);
 				return false;
 			}.bind(this));
 		}.bind(this));
+		return this;
 	},
-	setActivePage: function(n) {
-		var active = this.current + n;
-		if(this.options.mode == "circle") {
-			if(active >= this.items.length) active -= this.items.length;
-		}
-		this.paging.removeClass("active")[Math.floor(active/this.options.steps)].addClass("active");
+	setActivePage: function() {
+		this.paging.removeClass("active")[Math.ceil(this.current/this.options.steps)].addClass("active");
+		return this;
 	},
-	getRandomArray: function(items) {
+	shuffle: function() {
 		var str = "";
-		items.sort(function(){return 0.5 - Math.random()}).each(function(el) {
+		this.items.sort(function(){return 0.5 - Math.random()}).each(function(el) {
 			str += new Element("div").adopt(el).get("html");
 		});
-		return str;
+		this.items = this.itemsParent.set("html", str).getElements(this.options.elements);
+		return this;
 	}
 });
 var fadeGallery = new Class({
@@ -309,23 +292,34 @@ var fadeGallery = new Class({
 	initialize: function(gallery, options) {
 		if(options.mode == "circle") options.mode = "callback";
 		this.parent(gallery, options);
-		this.visible = 1;
+		this.fxFade = [];
+		this.items.each(function(el, i) {
+			this.fxFade[i] = new Fx.Tween(el, {
+				property: "opacity",
+				duration: this.options.speed,
+				transition: this.options.transition,
+				link: "cancel"
+			});
+			this.fxFade[i].set(0);
+		}.bind(this));
+		this.play(false);
 	},
-	play: function() {
-		if(this.previous == null) this.previous = this.items;
+	play: function(animate) {
+		if(this.previous == null) {
+			this.previous = 0;
+			return false;
+		}
 		if(this.options.mode == "line") this.sidesChecking();
-		this.previous.set("tween", {
-			duration: this.options.speed,
-			transition: this.options.transition
-		});
-		this.previous.tween("opacity", 0);
-		this.items[this.current].set("tween", {
-			duration: this.options.speed,
-			transition: this.options.transition
-		});
-		this.items[this.current].tween("opacity", 1);
-		this.previous = this.items[this.current];
-		if(this.options.paging) this.setActivePage(0);
-		this.options.onPlay(this.current, this.visible, this.items.length);
+		if(animate) {
+			this.fxFade[this.previous].start(0);
+			this.fxFade[this.current].start(1);
+		}
+		else {
+			this.fxFade[this.previous].set(0);
+			this.fxFade[this.current].set(1);
+		}
+		this.previous = this.current;
+		if(this.options.paging) this.setActivePage();
+		this.fireEvent("play", this.current, this.visible, this.items.length, this.items[this.current]);
 	}
 });

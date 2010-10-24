@@ -1,7 +1,7 @@
 slideGallery
 ============
 
-Multifunctional slide carousel for mootools 1.2+.
+Multifunctional gallery for MooTools 1.2+.
 
 Cross Browser: IE6+, FF2+, Safari3+, Opera9+, Chrome
 
@@ -25,7 +25,7 @@ How to use
 	
 	CSS
 	-----------
-	.gallery { width: 960px; } /* you can change */
+	.gallery { width: 960px; }
 	.gallery .holder {
 		width: 100%;
 		position: relative;
@@ -51,32 +51,34 @@ How to use
 	
 	Arguments:
 	----------
-		- element [string, element] - ID of element or reference to the element object.
+		- element [string, element] - reference to the element object.
 		- options [object]
 			- holder [string] - class or node for holder. Default ".holder"
-			- elementsParent [string] - class or node for elements holder. Default "ul"
-			- elements [string] - class or node of items. Default "li"
-			- nextItem [string] - class or node of "nextSlide" button. Default ".next"
-			- prevItem [string] - class or node of "prevSlide" button. Default ".prev"
-			- stop [string] - class or node of "stop" button. Default ".stop"
-			- start [string] - class or node of "play" button. Default ".start"
+			- elementsParent [string] - class or node for slides(elements) holder. Default "ul"
+			- elements [string] - class or node of elements. Default "li"
+			- nextItem [string] - class or node of the button Next. Default ".next"
+			- prevItem [string] - class or node of the button Prev. Default ".prev"
+			- stop [string] - class or node of Stop button. Default ".stop"
+			- start [string] - class or node of Play button. Default ".start"
 			- speed [integer] - speed of sliding in ms. Default 600
-			- duration [integer] - autosliding interval in ms. Default 4000
-			- steps [integer] - quantity of items for each slide. Default 1
-			- current [integer] - number of first(active) slide. Default 0
-			- transition [object] - transition. Default Fx.Transitions.linear
+			- steps [integer] - quantity of elements which are scrolled for one step. Default 1
+			- current [integer] - number of an element with which begins scrolling. Default 0
+			- currentClass [string] - className of an element with which begins scrolling. Default "current"
+			- transition [object] - transition effect. Default "sine:in:out"
 			- direction [string: "horizontal", "vertical"] - sliding direction. Default "horizontal"
 			- mode [string: "callback", "circle", "line"] - sliding mode. Default "callback"
-			- nextDisableClass [string] - class name for next button in disable state. Default "next-disable"
-			- prevDisableClass [string] - class name for prev button in disable state. Default "prev-disable"
-			- currentClass [string] - class of first(active) slide. Default "current"
+			- nextDisableClass [string] - className for the button Next in a disabled state. Default "next-disable"
+			- prevDisableClass [string] - className for the button Prev in a disabled state. Default "prev-disable"
 			- random [boolean] - random set of slides. Default false
-			- paging [boolean] -  on\off handles. Default false
+			- paging [boolean] - on\off handles. Default false
+			- pagingEvent [string] - event which fire the paging. Default "click"
+			- pagingHolder - class or node for paging holder. Default ".paging"
 			- autoplay [boolean] - on\off autoplay. Default false
 			- autoplayOpposite [boolean] - on\off opposite autoplay. Default false
-			- stopOnHover  [boolean] - on\off autoplay on hover. Default true
-			- onStart [function] - callback 1 time during initialization
-			- onPlay [function] - callback after each slide
+			- duration [integer] - autoplay interval in ms. Default 4000
+			- stopOnHover  [boolean] - on\off scrolling when the cursor over gallery. Default true
+			- onStart [function] - callback ones after initialization
+			- onPlay [function] - callback after each scrolling
 
 			
 Screenshots

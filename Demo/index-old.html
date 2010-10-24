@@ -1,0 +1,445 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>slideGallery</title>
+	<link media="all" type="text/css" rel="stylesheet" href="../Assets/css/all.css" />
+	<script type="text/javascript" src="../Assets/js/mootools-core-1.3-full-compat-yc.js"></script>
+	<script type="text/javascript" src="../Source/slideGallery.js"></script>
+	<script type="text/javascript">
+		window.addEvent("domready", function() {
+			/* Example 1 */
+			var gallery1 = new slideGallery($$("div.gallery")[0], {
+				steps: 3,
+				mode: "circle",
+				onStart: function() {
+					$$("span.info")[0].innerHTML = parseInt(this.current+1) + " from " + this.items.length;
+				},
+				onPlay: function() {
+					$$("span.info")[0].innerHTML = parseInt(this.current+1) + " from " + this.items.length;
+				}
+			});
+			/* Example 2 */
+			var gallery2 = new slideGallery($$("div.gallery")[1], {
+				steps: 3,
+				speed: 300,
+				random: true,
+				paging: true,
+				pagingHolder: ".paging"
+			});
+			/* Example 3 */
+			var gallery3 = new slideGallery($$("div.gallery")[2], {
+				steps: 2,
+				mode: "line"
+			});
+			/* Example 4 */
+			var gallery4 = new slideGallery($$("div.gallery")[3], {
+				steps: 1,
+				mode: "circle",
+				direction: "vertical"
+			});
+			/* Example 5 */
+			var gallery5 = new slideGallery($$("div.gallery")[4], {
+				steps: 3,
+				mode: "circle",
+				autoplay: true,
+				duration: 2000
+			});
+			/* Example 6 */
+			var gallery6 = new slideGallery($$("div.gallery")[5], {
+				steps: 2,
+				mode: "circle",
+				autoplayOpposite: true,
+				duration: 3000,
+				direction: "vertical"
+			});
+			/* Example 7 */
+			var gallery7 = new slideGallery($$("div.gallery")[6], {
+				steps: 2,
+				duration: 2000,
+				autoplay: true,
+				paging: true
+			});
+			/* Example 8 */
+			var gallery8 = new slideGallery($$("div.gallery")[7], {
+				steps: 1,
+				direction: "vertical",
+				paging: true,
+				onStart: function() {
+					$$("span.info")[7].innerHTML = $$("div.gallery")[7].getElements("img")[this.current].title;
+				},
+				onPlay: function() {
+					$$("span.info")[7].innerHTML = $$("div.gallery")[7].getElements("img")[this.current].title;
+				}
+			});
+			/* Example 9 */
+			var gallery9 = new slideGallery($$("div.gallery")[8], {
+				steps: 1,
+				mode: "circle",
+				current: 4,
+				speed: 0
+			});
+			/* Example 10 */
+			var gallery10 = new slideGallery($$("div.gallery")[9], {
+				steps: 2,
+				speed: 700,
+				duration: 1000,
+				autoplay: true,
+				transition: Fx.Transitions.Sine.easeInOut,
+				onStart: function() {
+					$$("span.info")[9].innerHTML = parseInt(this.current+1) + "-" + parseInt(this.visible+this.current) + " from " + this.items.length;
+				},
+				onPlay: function() {
+					$$("span.info")[9].innerHTML = parseInt(this.current+1) + "-" + parseInt(this.visible+this.current) + " from " + this.items.length;
+				}
+			});
+			/* Example 11 */
+			var gallery11 = new slideGallery($$("div.gallery")[10], {
+				steps: 1
+			});
+			/* Example 12 */
+			var gallery12 = new fadeGallery($$("div.gallery")[11], {
+				speed: 400,
+				paging: true,
+				autoplay: true,
+				duration: 2000,
+				onStart: function() {
+					$$("span.info")[11].innerHTML = parseInt(this.current+1) + " from " + this.items.length;
+				},
+				onPlay: function() {
+					$$("span.info")[11].innerHTML = parseInt(this.current+1) + " from " + this.items.length;
+				}
+			});
+			/* Examples panel */
+			var panel = true;
+			$$(".toggler").addEvent("click", function() {
+				if(panel) {
+					this.set("text", "show").getNext().setStyle("display", "none");
+					panel = false;
+				}
+				else {
+					this.set("text", "hide").getNext().setStyle("display", "block");
+					panel = true;
+				}
+				return false;
+			});
+		});
+	</script>
+	<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="../Assets/css/lt7.css" media="screen"/><![endif]-->
+</head>
+<body>
+	<div id="wrapper">
+		<h1 id="aaa">slideGallery 1.3 for Mootools 1.2+</h1>
+		<h2>Modes and steps + random</h2>
+		
+		<!-- Example 1 -->
+		<h3 id="example1">Example 1</h3>
+		<p>mode: circle, step: 3</p>
+		<div class="gallery">
+			<div class="holder">
+				<ul>
+					<li><img src="../Assets/images/img1.jpg" alt="image" width="240" height="180" />1</li>
+					<li><img src="../Assets/images/img2.jpg" alt="image" width="240" height="180" />2</li>
+					<li><img src="../Assets/images/img3.jpg" alt="image" width="240" height="180" />3</li>
+					<li><img src="../Assets/images/img4.jpg" alt="image" width="240" height="180" />4</li>
+					<li><img src="../Assets/images/img5.jpg" alt="image" width="240" height="180" />5</li>
+					<li><img src="../Assets/images/img6.jpg" alt="image" width="240" height="180" />6</li>
+					<li><img src="../Assets/images/img7.jpg" alt="image" width="240" height="180" />7</li>
+					<li><img src="../Assets/images/img8.jpg" alt="image" width="240" height="180" />8</li>
+				</ul>
+			</div>
+			<a href="#" class="prev">prev</a>
+			<a href="#" class="next">next</a>
+			<div class="control">
+				<span class="info"></span>
+			</div>
+		</div>
+		
+		<!-- Example 2 -->
+		<h3 id="example2">Example 2</h3>
+		<p>mode: callback, step: 1, random: true</p>
+		<div class="gallery">
+			<div class="holder">
+				<ul>
+					<li><img src="../Assets/images/img1.jpg" alt="image" width="240" height="180" title="Image title 1" />1</li>
+					<li><img src="../Assets/images/img2.jpg" alt="image" width="240" height="180" title="Image title 2" />2</li>
+					<li><img src="../Assets/images/img3.jpg" alt="image" width="240" height="180" title="Image title 3" />3</li>
+					<li><img src="../Assets/images/img4.jpg" alt="image" width="240" height="180" title="Image title 4" />4</li>
+					<li><img src="../Assets/images/img5.jpg" alt="image" width="240" height="180" title="Image title 5" />5</li>
+					<li><img src="../Assets/images/img6.jpg" alt="image" width="240" height="180" title="Image title 6" />6</li>
+					<li><img src="../Assets/images/img7.jpg" alt="image" width="240" height="180" title="Image title 7" />7</li>
+					<li><img src="../Assets/images/img8.jpg" alt="image" width="240" height="180" title="Image title 8" />8</li>
+				</ul>
+			</div>
+			<a href="#" class="prev">prev</a>
+			<a href="#" class="next">next</a>
+			<div class="control">
+				<span class="info"></span>
+			</div>
+			<div class="paging"></div>
+		</div>
+		
+		<!-- Example 3 -->
+		<h3 id="example3">Example 3</h3>
+		<p>mode: line, step: 2</p>
+		<div class="gallery">
+			<div class="holder">
+				<ul>
+					<li><img src="../Assets/images/img1.jpg" alt="image" width="240" height="180" />1</li>
+					<li><img src="../Assets/images/img2.jpg" alt="image" width="240" height="180" />2</li>
+					<li><img src="../Assets/images/img3.jpg" alt="image" width="240" height="180" />3</li>
+					<li><img src="../Assets/images/img4.jpg" alt="image" width="240" height="180" />4</li>
+					<li><img src="../Assets/images/img5.jpg" alt="image" width="240" height="180" />5</li>
+					<li><img src="../Assets/images/img6.jpg" alt="image" width="240" height="180" />6</li>
+					<li><img src="../Assets/images/img7.jpg" alt="image" width="240" height="180" />7</li>
+					<li><img src="../Assets/images/img8.jpg" alt="image" width="240" height="180" />8</li>
+					<li><img src="../Assets/images/img1.jpg" alt="image" width="240" height="180" />9</li>
+					<li><img src="../Assets/images/img2.jpg" alt="image" width="240" height="180" />10</li>
+					<li class="current"><img src="../Assets/images/img3.jpg" alt="image" width="240" height="180" />11</li>
+					<li><img src="../Assets/images/img4.jpg" alt="image" width="240" height="180" />12</li>
+					<li><img src="../Assets/images/img5.jpg" alt="image" width="240" height="180" />13</li>
+					<li><img src="../Assets/images/img6.jpg" alt="image" width="240" height="180" />14</li>
+					<li><img src="../Assets/images/img7.jpg" alt="image" width="240" height="180" />15</li>
+					<li><img src="../Assets/images/img8.jpg" alt="image" width="240" height="180" />16</li>
+				</ul>
+			</div>
+			<a href="#" class="prev">prev</a>
+			<a href="#" class="next">next</a>
+			<div class="control">
+				<span class="info"></span>
+			</div>
+		</div>
+		
+		<h2>Directions and autoplay + modes and steps</h2>
+		
+		<!-- Example 4 -->
+		<h3 id="example4">Example 4</h3>
+		<p>direction: vertical, mode: circle, steps: 1</p>
+		<div class="gallery gallery-vert">
+			<div class="holder">
+				<ul>
+					<li><img src="../Assets/images/img1.jpg" alt="image" width="240" height="180" /></li>
+					<li><img src="../Assets/images/img2.jpg" alt="image" width="240" height="180" /></li>
+					<li><img src="../Assets/images/img3.jpg" alt="image" width="240" height="180" /></li>
+					<li><img src="../Assets/images/img4.jpg" alt="image" width="240" height="180" /></li>
+					<li><img src="../Assets/images/img5.jpg" alt="image" width="240" height="180" /></li>
+					<li><img src="../Assets/images/img6.jpg" alt="image" width="240" height="180" /></li>
+					<li><img src="../Assets/images/img7.jpg" alt="image" width="240" height="180" /></li>
+					<li><img src="../Assets/images/img8.jpg" alt="image" width="240" height="180" /></li>
+				</ul>
+			</div>
+			<a href="#" class="prev">prev</a>
+			<a href="#" class="next">next</a>
+			<div class="control">
+				<span class="info"></span>
+			</div>
+		</div>
+		
+		<!-- Example 5 -->
+		<h3 id="example5">Example 5</h3>
+		<p>direction: horizontal, mode: circle, autoplay: true (duration 2sec), steps: 3</p>
+		<div class="gallery">
+			<div class="holder">
+				<ul>
+					<li><img src="../Assets/images/img1.jpg" alt="image" width="240" height="180" /></li>
+					<li><img src="../Assets/images/img2.jpg" alt="image" width="240" height="180" /></li>
+					<li><img src="../Assets/images/img3.jpg" alt="image" width="240" height="180" /></li>
+					<li><img src="../Assets/images/img4.jpg" alt="image" width="240" height="180" /></li>
+					<li><img src="../Assets/images/img5.jpg" alt="image" width="240" height="180" /></li>
+					<li><img src="../Assets/images/img6.jpg" alt="image" width="240" height="180" /></li>
+					<li><img src="../Assets/images/img7.jpg" alt="image" width="240" height="180" /></li>
+					<li><img src="../Assets/images/img8.jpg" alt="image" width="240" height="180" /></li>
+				</ul>
+			</div>
+			<a href="#" class="prev">prev</a>
+			<a href="#" class="next">next</a>
+			<div class="control">
+				<span class="info"></span>
+			</div>
+		</div>
+		
+		<!-- Example 6 -->
+		<h3 id="example6">Example 6</h3>
+		<p>direction: vertical, mode: circle, autoplayOpposite: true (duration 3sec), stopOnHover: true, steps: 2</p>
+		<div class="gallery gallery-vert">
+			<div class="holder">
+				<ul>
+					<li><img src="../Assets/images/img1.jpg" alt="image" width="240" height="180" /></li>
+					<li><img src="../Assets/images/img2.jpg" alt="image" width="240" height="180" /></li>
+					<li><img src="../Assets/images/img3.jpg" alt="image" width="240" height="180" /></li>
+					<li><img src="../Assets/images/img4.jpg" alt="image" width="240" height="180" /></li>
+					<li><img src="../Assets/images/img5.jpg" alt="image" width="240" height="180" /></li>
+					<li><img src="../Assets/images/img6.jpg" alt="image" width="240" height="180" /></li>
+					<li><img src="../Assets/images/img7.jpg" alt="image" width="240" height="180" /></li>
+					<li><img src="../Assets/images/img8.jpg" alt="image" width="240" height="180" /></li>
+				</ul>
+			</div>
+			<a href="#" class="prev">prev</a>
+			<a href="#" class="next">next</a>
+			<div class="control">
+				<span class="info"></span>
+			</div>
+		</div>
+		
+		<h2>Paging + directions and autoplay + modes and steps</h2>
+		
+		<!-- Example 7 -->
+		<h3 id="example7">Example 7</h3>
+		<p>direction: horizontal, mode: callback, autoplay: true (duration 2sec), steps: 2, paging: true</p>
+		<div class="gallery">
+			<div class="holder">
+				<ul>
+					<li><img src="../Assets/images/img1.jpg" alt="image" width="240" height="180" />1</li>
+					<li><img src="../Assets/images/img2.jpg" alt="image" width="240" height="180" />2</li>
+					<li><img src="../Assets/images/img3.jpg" alt="image" width="240" height="180" />3</li>
+					<li><img src="../Assets/images/img4.jpg" alt="image" width="240" height="180" />4</li>
+					<li><img src="../Assets/images/img5.jpg" alt="image" width="240" height="180" />5</li>
+					<li><img src="../Assets/images/img6.jpg" alt="image" width="240" height="180" />6</li>
+					<li><img src="../Assets/images/img7.jpg" alt="image" width="240" height="180" />7</li>
+					<li><img src="../Assets/images/img8.jpg" alt="image" width="240" height="180" />8</li>
+				</ul>
+			</div>
+			<a href="#" class="prev">prev</a>
+			<a href="#" class="next">next</a>
+			<div class="control">
+				<span class="info"></span>
+			</div>
+		</div>
+		
+		<!-- Example 8 -->
+		<h3 id="example8">Example 8</h3>
+		<p>direction: vertical, mode: callback, steps: 1, paging: true, image captions</p>
+		<div class="gallery gallery-vert-one">
+			<div class="holder">
+				<ul>
+					<li><img src="../Assets/images/img1.jpg" alt="image" width="240" height="180" title="I'am image 1" />1</li>
+					<li><img src="../Assets/images/img2.jpg" alt="image" width="240" height="180" title="I'am image 2" />2</li>
+					<li><img src="../Assets/images/img3.jpg" alt="image" width="240" height="180" title="I'am image 3" />3</li>
+					<li><img src="../Assets/images/img4.jpg" alt="image" width="240" height="180" title="I'am image 4" />4</li>
+					<li><img src="../Assets/images/img5.jpg" alt="image" width="240" height="180" title="I'am image 5" />5</li>
+					<li><img src="../Assets/images/img6.jpg" alt="image" width="240" height="180" title="I'am image 6" />6</li>
+					<li><img src="../Assets/images/img7.jpg" alt="image" width="240" height="180" title="I'am image 7" />7</li>
+					<li><img src="../Assets/images/img8.jpg" alt="image" width="240" height="180" title="I'am image 8" />8</li>
+				</ul>
+			</div>
+			<a href="#" class="prev">prev</a>
+			<a href="#" class="next">next</a>
+			<div class="control">
+				<span class="info"></span>
+			</div>
+		</div>
+		
+		<h2>Other</h2>
+		
+		<!-- Example 9 -->
+		<h3 id="example9">Example 9</h3>
+		<p>speed: 0, current: 4 (or via "li class='current'")</p>
+		<div class="gallery">
+			<div class="holder">
+				<ul>
+					<li><img src="../Assets/images/img1.jpg" alt="image" width="240" height="180" />1</li>
+					<li><img src="../Assets/images/img2.jpg" alt="image" width="240" height="180" />2</li>
+					<li><img src="../Assets/images/img3.jpg" alt="image" width="240" height="180" />3</li>
+					<li><img src="../Assets/images/img4.jpg" alt="image" width="240" height="180" />4</li>
+					<li><img src="../Assets/images/img5.jpg" alt="image" width="240" height="180" />5</li>
+					<li><img src="../Assets/images/img6.jpg" alt="image" width="240" height="180" />6</li>
+					<li><img src="../Assets/images/img7.jpg" alt="image" width="240" height="180" />7</li>
+					<li><img src="../Assets/images/img8.jpg" alt="image" width="240" height="180" />8</li>
+				</ul>
+			</div>
+			<a href="#" class="prev">prev</a>
+			<a href="#" class="next">next</a>
+			<div class="control">
+				<span class="info"></span>
+			</div>
+		</div>
+		<!-- Example 10 -->
+		<h3 id="example10">Example 10</h3>
+		<p>transition: Fx.Transitions.Sine.easeInOut, speed: 700, controls, onStart and onPlay functions</p>
+		<div class="gallery">
+			<div class="holder">
+				<ul>
+					<li><img src="../Assets/images/img1.jpg" alt="image" width="240" height="180" />1</li>
+					<li><img src="../Assets/images/img2.jpg" alt="image" width="240" height="180" />2</li>
+					<li><img src="../Assets/images/img3.jpg" alt="image" width="240" height="180" />3</li>
+					<li><img src="../Assets/images/img4.jpg" alt="image" width="240" height="180" />4</li>
+					<li><img src="../Assets/images/img5.jpg" alt="image" width="240" height="180" />5</li>
+					<li><img src="../Assets/images/img6.jpg" alt="image" width="240" height="180" />6</li>
+					<li><img src="../Assets/images/img7.jpg" alt="image" width="240" height="180" />7</li>
+					<li><img src="../Assets/images/img8.jpg" alt="image" width="240" height="180" />8</li>
+				</ul>
+			</div>
+			<a href="#" class="prev">prev</a>
+			<a href="#" class="next">next</a>
+			<div class="control">
+				<a href="#" class="start">play</a>
+				<a href="#" class="stop">stop</a>
+				<span class="info"></span>
+			</div>
+		</div>
+		<!-- Example 11 -->
+		<h3 id="example11">Example 11</h3>
+		<p>Only 4 images</p>
+		<div class="gallery">
+			<div class="holder">
+				<ul>
+					<li><img src="../Assets/images/img1.jpg" alt="image" width="240" height="180" /></li>
+					<li><img src="../Assets/images/img2.jpg" alt="image" width="240" height="180" /></li>
+					<li><img src="../Assets/images/img3.jpg" alt="image" width="240" height="180" /></li>
+					<li><img src="../Assets/images/img4.jpg" alt="image" width="240" height="180" /></li>
+				</ul>
+			</div>
+			<a href="#" class="prev">prev</a>
+			<a href="#" class="next">next</a>
+			<div class="control">
+				<span class="info"></span>
+			</div>
+		</div>
+		<!-- Example 12 -->
+		<h3 id="example12">Example 12</h3>
+		<p>fadeGallery</p>
+		<div class="gallery gallery-fade">
+			<div class="holder">
+				<ul>
+					<li><img src="../Assets/images/img1.jpg" alt="image" width="240" height="180" /></li>
+					<li><img src="../Assets/images/img2.jpg" alt="image" width="240" height="180" /></li>
+					<li><img src="../Assets/images/img3.jpg" alt="image" width="240" height="180" /></li>
+					<li><img src="../Assets/images/img4.jpg" alt="image" width="240" height="180" /></li>
+					<li><img src="../Assets/images/img5.jpg" alt="image" width="240" height="180" /></li>
+					<li><img src="../Assets/images/img6.jpg" alt="image" width="240" height="180" /></li>
+					<li><img src="../Assets/images/img7.jpg" alt="image" width="240" height="180" /></li>
+					<li><img src="../Assets/images/img8.jpg" alt="image" width="240" height="180" /></li>
+				</ul>
+			</div>
+			<a href="#" class="prev">prev</a>
+			<a href="#" class="next">next</a>
+			<div class="control">
+				<span class="info"></span>
+			</div>
+		</div>
+		<div class="nav">
+			<strong>Examples</strong> <a href="#" class="toggler">hide</a>
+			<ul>
+				<li><a href="#example1">example 1</a></li>
+				<li><a href="#example2">example 2</a></li>
+				<li><a href="#example3">example 3</a></li>
+				<li><a href="#example4">example 4</a></li>
+				<li><a href="#example5">example 5</a></li>
+				<li><a href="#example6">example 6</a></li>
+				<li><a href="#example7">example 7</a></li>
+				<li><a href="#example8">example 8</a></li>
+				<li><a href="#example9">example 9</a></li>
+				<li><a href="#example10">example 10</a></li>
+				<li><a href="#example11">example 11</a></li>
+				<li><a href="#example12">example 12</a></li>
+				<li><a href="index.html">new examples</a></li>
+			</ul>
+		</div>
+	</div>
+	<div id="footer">
+		<div class="hold">
+			<p>copyright &copy;2009-2010 <a href="mailto:&#106;&#117;&#118;&#101;&#114;&#109;&#097;&#110;&#064;&#121;&#097;&#110;&#100;&#101;&#120;&#046;&#114;&#117;">Sergii Kashcheiev</a></p>
+		</div>
+	</div>
+</body>
+</html>
