@@ -1,7 +1,7 @@
 slideGallery
 ============
 
-Multifunctional gallery for MooTools 1.2+.
+Multifunctional gallery for MooTools 1.3+.
 
 Cross Browser: IE6+, FF2+, Safari3+, Opera9+, Chrome
 

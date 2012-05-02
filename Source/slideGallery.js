@@ -11,16 +11,17 @@ authors:
 - Sergii Kashcheiev
 
 requires:
-- core/1.2.4: Events
-- core/1.2.4: Fx.Tween
-- core/1.2.4: Fx.Transitions
+- core/1.3: Options
+- core/1.3: Events
+- core/1.3: Fx.Tween
+- core/1.3: Fx.Transitions
 
 provides: [slideGallery, fadeGallery]
 
 ...
 */
 var slideGallery = new Class({
-	Version: "1.3",
+	Version: "1.3.1",
 	Implements: [Options, Events],
 	options: {
 		holder: ".holder",
@@ -67,14 +68,6 @@ var slideGallery = new Class({
 		this.current = this.options.current;
 		this.bound = {rotate: this.rotate.bind(this) }
 		
-		Fx.implement({
-			cancel: function() {
-				if(!this.callChain()) this.fireEvent('chainComplete', this.subject);
-				if(this.stopTimer()) this.onCancel();
-				return this;
-			}
-		});
-		
 		if(this.options.direction == "horizontal") {
 			this.direction = "margin-left";
 			this.size = this.items[0].getWidth();
@@ -106,7 +99,11 @@ var slideGallery = new Class({
 			duration: this.options.speed,
 			transition: this.options.transition,
 			link: "cancel",
-			fps: 100
+			fps: 100,
+			onCancel: function() {
+				if(!this.callChain()) this.fireEvent("chainComplete", this.subject);
+				return this;
+			}
 		});
 	
 		if(this.options.random) this.shuffle();
@@ -255,8 +252,8 @@ var slideGallery = new Class({
 	createPaging: function() {
 		this.paging = new Element("ul");
 		var pagingHold = this.gallery.getElement(this.options.pagingHolder);
-		if(pagingHold != null) this.paging.injectInside(pagingHold);
-		else this.paging.injectInside(this.gallery).addClass("paging");
+		if(pagingHold != null) this.paging.inject(pagingHold);
+		else this.paging.inject(this.gallery).addClass("paging");
 		
 		var length = Math.ceil((this.items.length-this.visible)/this.options.steps)+1;
 		var str = "";
